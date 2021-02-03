@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  labels:
+    io.kompose.service: graphite
+  name: graphite
+  namespace: screeps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: graphite
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 (992df58d8)
+      labels:
+        io.kompose.service: graphite
+    spec:
+      containers:
+      - image: ennexa/graphite
+        name: graphite
+        resources: {}
+        volumeMounts:
+        - mountPath: /opt/graphite/conf
+          name: graphite-config
+        - mountPath: /opt/graphite/storage/whisper
+          name: graphite-data
+      volumes:
+      - name: graphite-config
+        configMap:
+          name: graphite-config
+      - name: graphite-data
+        persistentVolumeClaim:
+          claimName: graphite-data

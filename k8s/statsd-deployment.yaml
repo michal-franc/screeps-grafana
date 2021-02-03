@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.21.0 (992df58d8)
+  labels:
+    io.kompose.service: statsd
+  name: statsd
+  namespace: screeps
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: statsd
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.21.0 (992df58d8)
+      labels:
+        io.kompose.service: statsd
+    spec:
+      containers:
+      - image: ennexa/statsd
+        imagePullPolicy: ""
+        name: statsd
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/statsd
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes:
+        - name: config-volume
+          configMap:
+            name: statsd-config

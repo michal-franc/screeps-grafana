@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: statsd-config
+  namespace: screeps
+data:
+  config.js: |
+    {
+      port: 8125,
+      debug: false,
+      deleteGauges: true,
+      flushInterval: 5000,
+      backends: [ "./backends/graphite"],
+      graphite: {
+        legacyNamespace: false
+      },
+      graphitePort: 2003,
+      graphiteHost: "graphite.screeps.svc.cluster.local"
+    }
