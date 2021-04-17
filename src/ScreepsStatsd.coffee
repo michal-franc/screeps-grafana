@@ -20,9 +20,10 @@ zlib = require 'zlib'
 # require('request-debug')(rp)
 StatsD = require 'node-statsd'
 token = ""
+shards = (process.env.SCREEPS_SHARD || '').split(',')
 succes = false
-class ScreepsStatsd
 
+class ScreepsStatsd
   ###
   Do absolutely nothing and still return something
 
@@ -54,31 +55,33 @@ class ScreepsStatsd
         password: process.env.SCREEPS_PASSWORD
     rp(options).then (x) =>
       token = x.token
-      @getMemory()
+      @getMemory(options)
 
-  getMemory: () =>
-    succes = false
-    options =
-      uri: 'https://screeps.com/api/user/memory'
-      method: 'GET' 
-      json: true
-      resolveWithFullResponse: true
-      headers:
-        "X-Token": token
-        "X-Username": token
-      qs:
-        path: 'stats'
-        shard: process.env.SCREEPS_SHARD
-    rp(options).then (x) =>
-      # yeah... dunno why
-      token = x.headers['x-token']
-      return unless x.body.data
-      data = x.body.data.split('gz:')[1]
-      finalData = JSON.parse zlib.gunzipSync(new Buffer(data, 'base64')).toString()
-      succes = true
-      @report(finalData)
+  getMemory: (options) =>
+    shards.forEach (shard) =>
+      succes = false
+      options =
+        uri: 'https://screeps.com/api/user/memory'
+        method: 'GET' 
+        json: true
+        resolveWithFullResponse: true
+        headers:
+          "X-Token": token
+          "X-Username": token
+        qs:
+          path: 'stats'
+          shard: shard
+      rp(options).then (x) =>
+        # yeah... dunno why
+        token = x.headers['x-token']
+        return unless x.body.data
+        data = x.body.data.split('gz:')[1]
+        finalData = JSON.parse zlib.gunzipSync(new Buffer(data, 'base64')).toString()
+        succes = true
+        prefix = shard + '.'
+        @report(finalData, prefix)
 
-  report: (data, prefix="") =>
+  report: (data, prefix) =>
     if prefix is ''
       console.log "Pushing to gauges - " + new Date()
     for k,v of data

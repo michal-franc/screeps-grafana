@@ -9,9 +9,9 @@ kubectl create secret generic poller-envvars \
 
 ```
 docker build .
-<get final tag (24984f1148e1) from output >
-docker tag 8fec00b6e5b2 docker.pedanticorderliness.com/screeps-poller:8fec00b6e5b2
-docker push docker.pedanticorderliness.com/screeps-poller:8fec00b6e5b2
+<get final tag (a74d5db975d2) from output >
+docker tag a74d5db975d2 docker.pedanticorderliness.com/screeps-poller:a74d5db975d2
+docker push docker.pedanticorderliness.com/screeps-poller:a74d5db975d2
 ```
 
 K8s

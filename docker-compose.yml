@@ -1,9 +1,7 @@
 version: "2"
-volumes:
-  graphite_data:
-  grafana_data:
+
 services:
-  node:
+  poller:
     build:
         context: .
         dockerfile: Dockerfile
@@ -46,3 +44,7 @@ services:
   #     - ./sampleDashboard.json:/sampleDashboard.json
   #   command: |
   #     curl 'http://admin:admin@grafana:3000/api/dashboards/db' -X POST -H 'Content-Type: application/json;charset=UTF-8' --data @/sampleDashboard.json 
+
+volumes:
+  graphite_data:
+  grafana_data:
