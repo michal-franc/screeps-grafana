@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: poller
-        image: docker.pedanticorderliness.com/screeps-poller:${TAG_NAME}
+        image: docker.example.com/screeps-poller:${TAG_NAME}
         imagePullPolicy: ""
         resources: {}
         envFrom:

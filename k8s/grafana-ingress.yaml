@@ -8,7 +8,7 @@ metadata:
     cert-manager.io/cluster-issuer: letsencrypt-prod-registry
 spec:
   rules:
-  - host: screeps.pedanticorderliness.com
+  - host: screeps.example.com
     http:
       paths:
       - backend:
@@ -18,5 +18,5 @@ spec:
         pathType: ImplementationSpecific
   tls:
   - hosts:
-    - screeps.pedanticorderliness.com
+    - screeps.example.com
     secretName: grafana-ingress

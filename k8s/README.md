@@ -9,19 +9,18 @@ kubectl create secret generic poller-envvars \
 
 ```
 docker build .
-<get final tag (a74d5db975d2) from output >
-docker tag a74d5db975d2 docker.pedanticorderliness.com/screeps-poller:a74d5db975d2
-docker push docker.pedanticorderliness.com/screeps-poller:a74d5db975d2
+<get final tag (aff013eaf3a7) from output >
+docker tag aff013eaf3a7 docker.example.com/screeps-poller:aff013eaf3a7
+docker push docker.example.com/screeps-poller:aff013eaf3a7
 ```
 
 K8s
 
 ```
-kubectl create secret docker-registry regcred --docker-server=docker.pedanticorderliness.com --docker-username=<username> --docker-password=<password> --docker-email=<email> --namespace screeps
+kubectl create secret docker-registry regcred --docker-server=docker.example.com --docker-username=<username> --docker-password=<password> --docker-email=<email> --namespace screeps
 ```
 
 ```
 export TAG_NAME=8fec00b6e5b2
 envsubst < poller-deployment.yaml | kubectl apply --namespace screeps -f - 
 ```
-
