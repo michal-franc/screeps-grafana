@@ -11,6 +11,9 @@ services:
     environment:
       GRAPHITE_PORT_8125_UDP_ADDR: "statsd"
     env_file: docker-compose.env
+    volumes: 
+      - ./:/app
+      - node_modules:/app/node_modules
   statsd:
     image: ennexa/statsd
     links: 
@@ -48,3 +51,4 @@ services:
 volumes:
   graphite_data:
   grafana_data:
+  node_modules:

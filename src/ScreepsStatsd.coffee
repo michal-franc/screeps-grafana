@@ -10,42 +10,48 @@ For full copyright and license information, please see the LICENSE file
 @license    http://choosealicense.com/licenses/MIT  MIT License
 ###
 
-###
-SimpleClass documentation
-
-@since  0.1.0
-###
 rp = require 'request-promise'
 zlib = require 'zlib'
-# require('request-debug')(rp)
 StatsD = require 'node-statsd'
-token = ""
+lodash = require 'lodash'
+
 shards = (process.env.SCREEPS_SHARD || '').split(',')
-succes = false
+resources = [
+  'energy', 'O', 'H', 'K', 'Z', 'U', 'L', 'X', 'G', "OH", "ZK", "UL",
+  "UH", "UO", "KH", "KO",  "LH",  "LO", "ZH", "ZO", "GH", "GO",
+  "UH2O", "UHO2", "KH2O", "KHO2", "LH2O", "LHO2", "ZH2O", "ZHO2", "GH2O", "GHO2",
+  "XUH2O", "XUHO2", "XKH2O", "XKHO2", "XLH2O", "XLHO2", "XZH2O", "XZHO2", "XGH2O", "XGHO2",
+]
 
 class ScreepsStatsd
-  ###
-  Do absolutely nothing and still return something
-
-  @param    {string}    string      The string to be returned - untouched, of course
-  @return   string
-  @since    0.1.0
-  ###
   run: ( string ) ->
     rp.defaults jar: true
-    @loop()
 
+    @counter = 0
+    @token = ""
+    @succes = false
+    @client = new StatsD host: process.env.GRAPHITE_PORT_8125_UDP_ADDR
+
+    console.log "will fetch data for", shards
+
+    @loop()
     setInterval @loop, 15000
 
   loop: () =>
-    @signin()
+    if(!@token || !@succes)
+      @signin()
+      return
+
+    @getStats()
+
+    if(@counter % 5 == 0)
+      @getMarket()
+
+    @counter++
 
   signin: () =>
-    if(token != "" && succes)
-      @getMemory()
-      return
-    @client = new StatsD host: process.env.GRAPHITE_PORT_8125_UDP_ADDR
     console.log "New login request - " + new Date()
+
     options =
       uri: 'https://screeps.com/api/auth/signin'
       json: true
@@ -53,37 +59,90 @@ class ScreepsStatsd
       body:
         email: process.env.SCREEPS_EMAIL
         password: process.env.SCREEPS_PASSWORD
-    rp(options).then (x) =>
-      token = x.token
-      @getMemory(options)
+    rp(options)
+      .then (x) =>
+        @token = x.token
 
-  getMemory: (options) =>
+        console.log "Fetched auth data"
+        @succes = true
+      .catch (e) =>
+        console.log e
+
+  getStats: () =>
+    console.log("getting stats")
+
     shards.forEach (shard) =>
-      succes = false
+      @succes = false
       options =
         uri: 'https://screeps.com/api/user/memory'
         method: 'GET' 
         json: true
         resolveWithFullResponse: true
         headers:
-          "X-Token": token
-          "X-Username": token
+          "X-Token": @token
         qs:
           path: 'stats'
           shard: shard
-      rp(options).then (x) =>
-        # yeah... dunno why
-        token = x.headers['x-token']
-        return unless x.body.data
-        data = x.body.data.split('gz:')[1]
-        finalData = JSON.parse zlib.gunzipSync(new Buffer(data, 'base64')).toString()
-        succes = true
-        prefix = shard + '.'
-        @report(finalData, prefix)
+      rp(options)
+        .then (x) =>
+          return unless x.body.ok && x.body.data
+          @succes = true
+
+          # Memory is returned in base64 encoded blob                    
+          gzData = x.body.data.split('gz:')[1]
+          data = JSON.parse zlib.gunzipSync(new Buffer(gzData, 'base64')).toString()
+
+          @report(data, shard + '.')
+        .catch (e) =>
+          console.log "failed getting stats", @counter, shard
+      
+
+  getMarket: () =>
+    # rotate the array
+    resources.push(resources.shift())
+    resource = resources[0]
+
+    console.log "getting market data", resource
+
+    shards.forEach (shard) =>
+      @succes = false
+      options =
+        uri: 'https://screeps.com/api/game/market/orders'
+        method: 'GET' 
+        json: true
+        resolveWithFullResponse: true
+        headers:
+          "X-Token": @token
+        qs:
+          resourceType: resource
+          shard: shard
+      rp(options)
+        .then (x) =>
+          return unless x.body.ok && x.body.list
+          @succes = true
+          orders = x.body.list
+
+          sellOrders = orders.filter (o) =>
+            return o.type == 'sell'
+
+          sellOrders = lodash.sortBy sellOrders, 'price'
+          minSell = sellOrders[0];
+          if (minSell)
+            @client.gauge([shard, 'market', resource, 'min', 'sell'].join('.'), minSell.price);
+        
+          buyOrders = orders.filter (o) =>
+            return o.type == 'buy'
+            
+          buyOrders = lodash.sortBy buyOrders, 'price'
+          buyOrders.reverse()
+          maxBuy = buyOrders[0];
+          if (maxBuy)
+            @client.gauge([shard, 'market', resource, 'max', 'buy'].join('.'), maxBuy.price);
+
+        .catch (e) =>
+          console.log "failed getting market data", @counter, shard, resource
 
   report: (data, prefix) =>
-    if prefix is ''
-      console.log "Pushing to gauges - " + new Date()
     for k,v of data
       if typeof v is 'object'
         @report(v, prefix+k+'.')

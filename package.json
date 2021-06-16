@@ -46,8 +46,8 @@
   "keywords": [],
   "dependencies": {
     "coffee": "^3.0.3",
+    "lodash": "^4.17.21",
     "node-statsd": "^0.1.1",
-    "request-promise": "^2.0.0",
-    "sleep": "^3.0.0"
+    "request-promise": "^2.0.0"
   }
 }
