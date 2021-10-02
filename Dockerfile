@@ -1,4 +1,4 @@
-FROM node:4-onbuild
+FROM node:14-alpine
 
 WORKDIR /app
 
