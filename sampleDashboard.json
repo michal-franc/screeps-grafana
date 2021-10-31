@@ -8,16 +8,24 @@
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       }
     ]
   },
   "editable": true,
+  "fiscalYearStartMonth": 0,
   "gnetId": null,
   "graphTooltip": 1,
-  "id": 4,
-  "iteration": 1618692956277,
+  "id": 2,
+  "iteration": 1635714147104,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
@@ -41,12 +49,6 @@
       "datasource": null,
       "editable": true,
       "error": false,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 0,
       "grid": {},
@@ -78,7 +80,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.2",
+      "pluginVersion": "8.2.2",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -105,24 +107,24 @@
           "hide": false,
           "refCount": 0,
           "refId": "A",
-          "target": "alias(stats.gauges.shard2.cpu.used, 'Used')",
+          "target": "alias(stats.gauges.shard3.cpu.used, 'Used')",
           "textEditor": false
         },
         {
           "refCount": 0,
           "refId": "B",
-          "target": "alias(stats.gauges.shard2.cpu.bucket, 'Bucket')"
+          "target": "alias(stats.gauges.shard3.cpu.bucket, 'Bucket')"
         },
         {
           "hide": false,
           "refCount": 0,
           "refId": "C",
-          "target": "alias(stats.gauges.shard2.cpu.limit, 'Limit')"
+          "target": "alias(stats.gauges.shard3.cpu.limit, 'Limit')"
         },
         {
           "refCount": 0,
           "refId": "D",
-          "target": "alias(movingAverage(stats.gauges.shard2.cpu.used, '1hour'), 'Used 1h avg')"
+          "target": "alias(movingAverage(stats.gauges.shard3.cpu.used, '1hour'), 'Used 1h avg')"
         }
       ],
       "thresholds": [],
@@ -171,29 +173,45 @@
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
       "datasource": null,
-      "editable": true,
-      "error": false,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 10000,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "rgba(245, 54, 54, 0.9)",
+                "value": null
+              },
+              {
+                "color": "rgba(237, 129, 40, 0.89)",
+                "value": 5000
+              },
+              {
+                "color": "rgba(50, 172, 45, 0.97)",
+                "value": 9500
+              }
+            ]
+          },
+          "unit": "none"
         },
         "overrides": []
-      },
-      "format": "none",
-      "gauge": {
-        "maxValue": 10000,
-        "minValue": 0,
-        "show": true,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
       },
       "gridPos": {
         "h": 9,
@@ -203,61 +221,30 @@
       },
       "id": 2,
       "interval": null,
-      "isNew": true,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "$$hashKey": "object:347",
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "$$hashKey": "object:348",
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "tableColumn": "",
+      "pluginVersion": "8.2.2",
       "targets": [
         {
           "refId": "A",
-          "target": "stats.gauges.shard2.cpu.bucket"
+          "target": "stats.gauges.shard3.cpu.bucket"
         }
       ],
-      "thresholds": "5000,9500",
       "title": "Current Bucket",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "$$hashKey": "object:350",
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "gauge"
     },
     {
       "aliasColors": {},
@@ -267,12 +254,6 @@
       "datasource": null,
       "editable": true,
       "error": false,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "grid": {},
@@ -302,7 +283,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.2",
+      "pluginVersion": "8.2.2",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -313,7 +294,7 @@
       "targets": [
         {
           "refId": "A",
-          "target": "alias(derivative(stats.gauges.shard2.time), 'Ticks Per Update')"
+          "target": "alias(derivative(stats.gauges.shard3.time), 'Ticks Per Update')"
         }
       ],
       "thresholds": [],
@@ -360,29 +341,39 @@
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
       "datasource": null,
-      "editable": true,
-      "error": false,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
         },
         "overrides": []
-      },
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
       },
       "gridPos": {
         "h": 8,
@@ -392,84 +383,70 @@
       },
       "id": 4,
       "interval": null,
-      "isNew": true,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.2.2",
       "targets": [
         {
           "refId": "A",
-          "target": "stats.gauges.shard2.gcl.level"
+          "target": "stats.gauges.shard3.gcl.level"
         }
       ],
-      "thresholds": "",
       "title": "GCL",
-      "type": "singlestat",
-      "valueFontSize": "200%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
       "datasource": null,
-      "editable": true,
-      "error": false,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percentunit"
         },
         "overrides": []
-      },
-      "format": "percentunit",
-      "gauge": {
-        "maxValue": 1,
-        "minValue": 0,
-        "show": true,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
       },
       "gridPos": {
         "h": 8,
@@ -479,89 +456,71 @@
       },
       "id": 6,
       "interval": null,
-      "isNew": true,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "text": {}
       },
-      "tableColumn": "",
+      "pluginVersion": "8.2.2",
       "targets": [
         {
           "refId": "A",
-          "target": "divideSeries(stats.gauges.shard2.gcl.progress, #B)"
+          "target": "divideSeries(stats.gauges.shard3.gcl.progress, #B)"
         },
         {
           "hide": true,
           "refId": "B",
-          "target": "stats.gauges.shard2.gcl.progressTotal"
+          "target": "stats.gauges.shard3.gcl.progressTotal"
         }
       ],
-      "thresholds": "",
       "title": "GCL Progress",
-      "type": "singlestat",
-      "valueFontSize": "150%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "gauge"
     },
     {
       "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "rgba(245, 54, 54, 0.9)",
-        "rgba(237, 129, 40, 0.89)",
-        "rgba(50, 172, 45, 0.97)"
-      ],
       "datasource": null,
-      "editable": true,
-      "error": false,
       "fieldConfig": {
         "defaults": {
-          "custom": {}
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
         },
         "overrides": []
-      },
-      "format": "s",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
       },
       "gridPos": {
         "h": 8,
@@ -571,68 +530,42 @@
       },
       "id": 7,
       "interval": null,
-      "isNew": true,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.2.2",
       "targets": [
         {
           "refId": "A",
-          "target": "divideSeries(diffSeries(stats.gauges.shard2.gcl.progressTotal, #B), #C)"
+          "target": "divideSeries(diffSeries(stats.gauges.shard3.gcl.progressTotal, #B), #C)"
         },
         {
           "hide": true,
           "refId": "B",
-          "target": "stats.gauges.shard2.gcl.progress"
+          "target": "stats.gauges.shard3.gcl.progress"
         },
         {
           "hide": true,
           "refId": "C",
-          "target": "scaleToSeconds(movingAverage(nonNegativeDerivative(stats.gauges.shard2.gcl.progress), '1hour'), 1)"
+          "target": "scaleToSeconds(movingAverage(nonNegativeDerivative(stats.gauges.shard3.gcl.progress), '1hour'), 1)"
         }
       ],
-      "thresholds": "",
       "title": "Time to Next GCL",
-      "type": "singlestat",
-      "valueFontSize": "150%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
       "aliasColors": {},
@@ -642,12 +575,6 @@
       "datasource": null,
       "editable": true,
       "error": false,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 1,
       "fillGradient": 0,
       "grid": {},
@@ -678,7 +605,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.2",
+      "pluginVersion": "8.2.2",
       "pointradius": 5,
       "points": false,
       "renderer": "flot",
@@ -696,17 +623,17 @@
       "targets": [
         {
           "refId": "A",
-          "target": "alias(divideSeries(nonNegativeDerivative(stats.gauges.shard2.gcl.progress), #B), 'GCL per tick')",
+          "target": "alias(divideSeries(nonNegativeDerivative(stats.gauges.shard3.gcl.progress), #B), 'GCL per tick')",
           "textEditor": false
         },
         {
           "hide": true,
           "refId": "B",
-          "target": "derivative(stats.gauges.shard2.time)"
+          "target": "derivative(stats.gauges.shard3.time)"
         },
         {
           "refId": "C",
-          "target": "alias(movingAverage(divideSeries(nonNegativeDerivative(stats.gauges.shard2.gcl.progress), #B), '1hour'), '1hr Moving Average')"
+          "target": "alias(movingAverage(divideSeries(nonNegativeDerivative(stats.gauges.shard3.gcl.progress), #B), '1hour'), '1hr Moving Average')"
         }
       ],
       "thresholds": [],
@@ -759,12 +686,6 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 5,
       "fillGradient": 0,
       "gridPos": {
@@ -791,7 +712,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.2",
+      "pluginVersion": "8.2.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -802,7 +723,7 @@
       "targets": [
         {
           "refId": "A",
-          "target": "aliasByNode(stats.gauges.shard2.creeps.*, 3)",
+          "target": "aliasByNode(stats.gauges.shard3.creeps.role.*, 5)",
           "textEditor": false
         }
       ],
@@ -855,12 +776,6 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -889,7 +804,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.2",
+      "pluginVersion": "8.2.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -901,12 +816,7 @@
         {
           "refCount": 0,
           "refId": "A",
-          "target": "aliasByNode(stats.gauges.shard2.resources.*, 3)"
-        },
-        {
-          "refCount": 0,
-          "refId": "B",
-          "target": "aliasByNode(stats.gauges.shard2.credits, 2)"
+          "target": "aliasByNode(stats.gauges.shard3.resources.*, 4)"
         }
       ],
       "thresholds": [],
@@ -953,84 +863,266 @@
       }
     },
     {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "id": 237,
+      "panels": [],
+      "repeat": "Room",
+      "title": "$Room",
+      "type": "row"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 0,
+        "y": 27
+      },
+      "id": 248,
+      "interval": null,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "refId": "A",
+          "target": "maxSeries(stats.gauges.shard3.rooms.$Room.controllerLevel)",
+          "textEditor": false
+        }
+      ],
+      "title": "RCL",
+      "type": "stat"
+    },
+    {
+      "cacheTimeout": null,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 4,
+        "x": 4,
+        "y": 27
+      },
+      "id": 260,
+      "interval": null,
+      "links": [],
+      "maxDataPoints": 100,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "text": {},
+        "textMode": "auto"
+      },
+      "pluginVersion": "8.2.2",
+      "targets": [
+        {
+          "refCount": 0,
+          "refId": "A",
+          "target": "divideSeries(diffSeries(sumSeries(stats.gauges.shard3.rooms.$Room.controllerProgressTotal), #B), #C)",
+          "targetFull": "divideSeries(diffSeries(sumSeries(stats.gauges.shard3.rooms.$Room.controllerProgressTotal), sumSeries(stats.gauges.shard3.rooms.$Room.controllerProgress)), scaleToSeconds(movingAverage(nonNegativeDerivative(sumSeries(stats.gauges.shard3.rooms.$Room.controllerProgress)), '1hour'), 1))",
+          "textEditor": false
+        },
+        {
+          "hide": true,
+          "refCount": -1,
+          "refId": "B",
+          "target": "sumSeries(stats.gauges.shard3.rooms.$Room.controllerProgress)",
+          "textEditor": false
+        },
+        {
+          "hide": true,
+          "refCount": 1,
+          "refId": "C",
+          "target": "scaleToSeconds(movingAverage(nonNegativeDerivative(sumSeries(stats.gauges.shard3.rooms.$Room.controllerProgress)), '1hour'), 1)",
+          "textEditor": false
+        }
+      ],
+      "title": "Time to Next RCL",
+      "type": "stat"
+    },
+    {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "color": {},
-          "custom": {},
-          "thresholds": {
-            "mode": "absolute",
-            "steps": []
-          },
-          "unit": "short"
-        },
-        "overrides": []
-      },
+      "editable": true,
+      "error": false,
       "fill": 1,
       "fillGradient": 0,
+      "grid": {},
       "gridPos": {
         "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 26
+        "w": 8,
+        "x": 8,
+        "y": 27
       },
       "hiddenSeries": false,
-      "id": 573,
+      "id": 254,
+      "isNew": true,
       "legend": {
-        "avg": false,
-        "current": false,
-        "hideEmpty": true,
-        "hideZero": false,
-        "max": false,
-        "min": false,
-        "rightSide": true,
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": true,
+        "min": true,
         "show": true,
         "total": false,
-        "values": false
+        "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 2,
+      "links": [],
       "nullPointMode": "connected",
       "options": {
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.2",
-      "pointradius": 2,
+      "pluginVersion": "8.2.2",
+      "pointradius": 5,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:202",
+          "alias": "1hr Moving Average",
+          "fill": 0,
+          "steppedLine": false
+        }
+      ],
       "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
+      "stack": false,
+      "steppedLine": true,
       "targets": [
         {
-          "refCount": 0,
+          "refCount": 1,
           "refId": "A",
-          "target": "aliasByMetric(stats.gauges.shard2.kingdomCpu)"
+          "target": "alias(divideSeries(nonNegativeDerivative(sumSeries(stats.gauges.shard3.rooms.$Room.controllerProgress)), #B), 'GCL per tick')",
+          "targetFull": "alias(divideSeries(nonNegativeDerivative(sumSeries(stats.gauges.shard3.rooms.$Room.controllerProgress)), derivative(stats.gauges.shard3.time)), 'GCL per tick')",
+          "textEditor": false
         },
         {
-          "hide": false,
+          "hide": true,
           "refCount": 0,
           "refId": "B",
-          "target": "aliasByMetric(stats.gauges.shard2.scheduler.processCpu.*)"
+          "target": "derivative(stats.gauges.shard3.time)"
+        },
+        {
+          "refCount": 0,
+          "refId": "C",
+          "target": "alias(movingAverage(divideSeries(nonNegativeDerivative(sumSeries(stats.gauges.shard3.colonies.$Colony.rooms.*.controllerProgress)), #B), '1hour'), '1hr Moving Average')",
+          "targetFull": "alias(movingAverage(divideSeries(nonNegativeDerivative(sumSeries(stats.gauges.shard3.colonies.$Colony.rooms.*.controllerProgress)), derivative(stats.gauges.shard3.time)), '1hour'), '1hr Moving Average')",
+          "textEditor": true
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Process CPU Time",
+      "title": "RCL Upgrade",
       "tooltip": {
+        "msResolution": false,
         "shared": true,
-        "sort": 2,
-        "value_type": "individual"
+        "sort": 0,
+        "value_type": "cumulative"
       },
-      "transformations": [],
       "type": "graph",
       "xaxis": {
         "buckets": null,
@@ -1041,16 +1133,16 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:213",
+          "$$hashKey": "object:211",
           "format": "short",
           "label": null,
           "logBase": 1,
-          "max": "25",
-          "min": "0",
+          "max": null,
+          "min": 0,
           "show": true
         },
         {
-          "$$hashKey": "object:214",
+          "$$hashKey": "object:212",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1070,28 +1162,145 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
+      "editable": true,
+      "error": false,
       "fill": 1,
+      "fillGradient": 0,
+      "grid": {},
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 27
+      },
+      "hiddenSeries": false,
+      "id": 247,
+      "isNew": true,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 2,
+      "links": [],
+      "nullPointMode": "connected",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "8.2.2",
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [
+        {
+          "alias": "Total",
+          "lines": false,
+          "stack": false
+        }
+      ],
+      "spaceLength": 10,
+      "stack": true,
+      "steppedLine": false,
+      "targets": [
+        {
+          "hide": false,
+          "refCount": 1,
+          "refId": "B",
+          "target": "alias(sumSeries(stats.gauges.shard3.rooms.$Room.energyAvailable), 'Spawns and Extensions')",
+          "textEditor": false
+        },
+        {
+          "hide": false,
+          "refCount": 1,
+          "refId": "A",
+          "target": "alias(sumSeries(stats.gauges.shard3.rooms.$Room.storageEnergy), 'Storage')"
+        },
+        {
+          "hide": false,
+          "refCount": 1,
+          "refId": "C",
+          "target": "alias(sumSeries(stats.gauges.shard3.rooms.$Room.terminalEnergy), 'Terminals')",
+          "textEditor": false
+        },
+        {
+          "refCount": 0,
+          "refId": "D",
+          "target": "alias(sumSeries(#A, #B, #C), \"Total\")",
+          "targetFull": "alias(sumSeries(alias(sumSeries(stats.gauges.shard3.rooms.$Room.storageEnergy), 'Storage'), alias(sumSeries(stats.gauges.shard3.rooms.$Room.energyAvailable), 'Spawns and Extensions'), alias(sumSeries(stats.gauges.shard3.rooms.$Room.terminalEnergy), 'Terminals')), \"Total\")",
+          "textEditor": true
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Stored Energy",
+      "tooltip": {
+        "msResolution": false,
+        "shared": true,
+        "sort": 0,
+        "value_type": "cumulative"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 10,
+          "max": null,
+          "min": 0,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 0,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
-        "x": 12,
-        "y": 26
+        "x": 0,
+        "y": 35
       },
       "hiddenSeries": false,
-      "id": 505,
+      "id": 261,
       "legend": {
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
-        "show": true,
+        "show": false,
         "total": false,
         "values": false
       },
@@ -1102,7 +1311,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.2",
+      "pluginVersion": "8.2.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1112,123 +1321,8 @@
       "steppedLine": false,
       "targets": [
         {
-          "refCount": 0,
           "refId": "A",
-          "target": "aliasByMetric(stats.gauges.shard2.scheduler.numProcesses)"
-        },
-        {
-          "hide": false,
-          "refCount": 0,
-          "refId": "B",
-          "target": "aliasByMetric(stats.gauges.shard2.scheduler.ranOutOfTime)"
-        },
-        {
-          "hide": false,
-          "refCount": 0,
-          "refId": "C",
-          "target": "aliasByMetric(stats.gauges.shard2.scheduler.timeLimit)"
-        },
-        {
-          "hide": false,
-          "refCount": 0,
-          "refId": "D",
-          "target": "alias(nonNegativeDerivative(stats.gauges.shard2.scheduler.ranOutOfTime, 0), 'skipped')"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Scheduler",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:187",
-          "format": "short",
-          "label": null,
-          "logBase": 10,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:188",
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 6,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 8,
-        "w": 12,
-        "x": 0,
-        "y": 34
-      },
-      "hiddenSeries": false,
-      "id": 320,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "connected",
-      "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "7.4.2",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": true,
-      "steppedLine": false,
-      "targets": [
-        {
-          "refCount": 0,
-          "refId": "A",
-          "target": "aliasByNode(stats.gauges.shard2.topics.*, 3)",
+          "target": "aliasByNode(stats.gauges.shard3.colonies.$Colony.rooms.*.sources.*.containerFree, 5, 7)",
           "textEditor": false
         }
       ],
@@ -1236,7 +1330,7 @@
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Topic Size",
+      "title": "Source Container Free Capacity",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1256,7 +1350,7 @@
           "label": null,
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
@@ -1279,28 +1373,22 @@
       "dashLength": 10,
       "dashes": false,
       "datasource": null,
-      "fieldConfig": {
-        "defaults": {
-          "custom": {}
-        },
-        "overrides": []
-      },
-      "fill": 1,
+      "fill": 0,
       "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 34
+        "y": 35
       },
       "hiddenSeries": false,
-      "id": 437,
+      "id": 262,
       "legend": {
         "avg": false,
         "current": false,
         "max": false,
         "min": false,
-        "show": true,
+        "show": false,
         "total": false,
         "values": false
       },
@@ -1311,7 +1399,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.4.2",
+      "pluginVersion": "8.2.2",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1321,36 +1409,16 @@
       "steppedLine": false,
       "targets": [
         {
-          "refCount": 0,
           "refId": "A",
-          "target": "aliasByMetric(stats.gauges.shard2.path_cache.listCount)"
-        },
-        {
-          "refCount": 0,
-          "refId": "B",
-          "target": "aliasByMetric(stats.gauges.shard2.path_cache.cacheHits)"
-        },
-        {
-          "refCount": 0,
-          "refId": "C",
-          "target": "aliasByMetric(stats.gauges.shard2.path_cache.cacheMisses)"
-        },
-        {
-          "refCount": 0,
-          "refId": "D",
-          "target": "aliasByMetric(stats.gauges.shard2.path_cache.roomCacheSize)"
-        },
-        {
-          "refCount": 0,
-          "refId": "E",
-          "target": "aliasByMetric(stats.gauges.shard2.path_cache.size)"
+          "target": "aliasByNode(stats.gauges.shard3.colonies.$Colony.rooms.*.sources.*.energy, 5, 7)",
+          "textEditor": false
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Path Cache",
+      "title": "Energy left in source",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -1366,16 +1434,14 @@
       },
       "yaxes": [
         {
-          "$$hashKey": "object:186",
           "format": "short",
           "label": null,
-          "logBase": 10,
+          "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
-          "$$hashKey": "object:187",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1388,1155 +1454,10 @@
         "align": false,
         "alignLevel": null
       }
-    },
-    {
-      "collapsed": true,
-      "datasource": null,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 42
-      },
-      "id": 237,
-      "panels": [
-        {
-          "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": false,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "datasource": null,
-          "editable": true,
-          "error": false,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "format": "none",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 4,
-            "x": 0,
-            "y": 43
-          },
-          "id": 248,
-          "interval": null,
-          "isNew": true,
-          "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
-          "maxDataPoints": 100,
-          "nullPointMode": "connected",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "scopedVars": {
-            "Colony": {
-              "selected": false,
-              "text": "E21S48-Shard2",
-              "value": "E21S48-Shard2"
-            }
-          },
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-          },
-          "tableColumn": "",
-          "targets": [
-            {
-              "refId": "A",
-              "target": "maxSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.controllerLevel)",
-              "textEditor": false
-            }
-          ],
-          "thresholds": "",
-          "title": "RCL",
-          "type": "singlestat",
-          "valueFontSize": "200%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
-        },
-        {
-          "cacheTimeout": null,
-          "colorBackground": false,
-          "colorValue": false,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "datasource": null,
-          "editable": true,
-          "error": false,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "format": "s",
-          "gauge": {
-            "maxValue": 100,
-            "minValue": 0,
-            "show": false,
-            "thresholdLabels": false,
-            "thresholdMarkers": true
-          },
-          "gridPos": {
-            "h": 8,
-            "w": 4,
-            "x": 4,
-            "y": 43
-          },
-          "id": 260,
-          "interval": null,
-          "isNew": true,
-          "links": [],
-          "mappingType": 1,
-          "mappingTypes": [
-            {
-              "name": "value to text",
-              "value": 1
-            },
-            {
-              "name": "range to text",
-              "value": 2
-            }
-          ],
-          "maxDataPoints": 100,
-          "nullPointMode": "connected",
-          "nullText": null,
-          "postfix": "",
-          "postfixFontSize": "50%",
-          "prefix": "",
-          "prefixFontSize": "50%",
-          "rangeMaps": [
-            {
-              "from": "null",
-              "text": "N/A",
-              "to": "null"
-            }
-          ],
-          "scopedVars": {
-            "Colony": {
-              "selected": false,
-              "text": "E21S48-Shard2",
-              "value": "E21S48-Shard2"
-            }
-          },
-          "sparkline": {
-            "fillColor": "rgba(31, 118, 189, 0.18)",
-            "full": false,
-            "lineColor": "rgb(31, 120, 193)",
-            "show": false
-          },
-          "tableColumn": "",
-          "targets": [
-            {
-              "refCount": 0,
-              "refId": "A",
-              "target": "divideSeries(diffSeries(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.controllerProgressTotal), #B), #C)",
-              "targetFull": "divideSeries(diffSeries(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.controllerProgressTotal), sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.controllerProgress)), scaleToSeconds(movingAverage(nonNegativeDerivative(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.controllerProgress)), '1hour'), 1))",
-              "textEditor": false
-            },
-            {
-              "hide": true,
-              "refCount": 1,
-              "refId": "B",
-              "target": "sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.controllerProgress)",
-              "textEditor": false
-            },
-            {
-              "hide": true,
-              "refCount": -1,
-              "refId": "C",
-              "target": "scaleToSeconds(movingAverage(nonNegativeDerivative(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.controllerProgress)), '1hour'), 1)",
-              "textEditor": false
-            }
-          ],
-          "thresholds": "",
-          "title": "Time to Next RCL",
-          "type": "singlestat",
-          "valueFontSize": "150%",
-          "valueMaps": [
-            {
-              "op": "=",
-              "text": "N/A",
-              "value": "null"
-            }
-          ],
-          "valueName": "current"
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "editable": true,
-          "error": false,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "fill": 1,
-          "fillGradient": 0,
-          "grid": {},
-          "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 8,
-            "y": 43
-          },
-          "hiddenSeries": false,
-          "id": 254,
-          "isNew": true,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": true,
-            "max": true,
-            "min": true,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "connected",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "7.4.2",
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "scopedVars": {
-            "Colony": {
-              "selected": false,
-              "text": "E21S48-Shard2",
-              "value": "E21S48-Shard2"
-            }
-          },
-          "seriesOverrides": [
-            {
-              "$$hashKey": "object:202",
-              "alias": "1hr Moving Average",
-              "fill": 0,
-              "steppedLine": false
-            }
-          ],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": true,
-          "targets": [
-            {
-              "refCount": 1,
-              "refId": "A",
-              "target": "alias(divideSeries(nonNegativeDerivative(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.controllerProgress)), #B), 'GCL per tick')",
-              "targetFull": "alias(divideSeries(nonNegativeDerivative(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.controllerProgress)), derivative(stats.gauges.shard2.time)), 'GCL per tick')",
-              "textEditor": false
-            },
-            {
-              "hide": true,
-              "refCount": 0,
-              "refId": "B",
-              "target": "derivative(stats.gauges.shard2.time)"
-            },
-            {
-              "refCount": 0,
-              "refId": "C",
-              "target": "alias(movingAverage(divideSeries(nonNegativeDerivative(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.controllerProgress)), #B), '1hour'), '1hr Moving Average')",
-              "targetFull": "alias(movingAverage(divideSeries(nonNegativeDerivative(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.controllerProgress)), derivative(stats.gauges.shard2.time)), '1hour'), '1hr Moving Average')",
-              "textEditor": true
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "RCL Upgrade",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "sort": 0,
-            "value_type": "cumulative"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:211",
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "$$hashKey": "object:212",
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "editable": true,
-          "error": false,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "fill": 1,
-          "fillGradient": 0,
-          "grid": {},
-          "gridPos": {
-            "h": 8,
-            "w": 8,
-            "x": 16,
-            "y": 43
-          },
-          "hiddenSeries": false,
-          "id": 247,
-          "isNew": true,
-          "legend": {
-            "alignAsTable": true,
-            "avg": true,
-            "current": true,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "connected",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "7.4.2",
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "scopedVars": {
-            "Colony": {
-              "selected": false,
-              "text": "E21S48-Shard2",
-              "value": "E21S48-Shard2"
-            }
-          },
-          "seriesOverrides": [
-            {
-              "alias": "Total",
-              "lines": false,
-              "stack": false
-            }
-          ],
-          "spaceLength": 10,
-          "stack": true,
-          "steppedLine": false,
-          "targets": [
-            {
-              "hide": false,
-              "refCount": -1,
-              "refId": "B",
-              "target": "alias(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.energyAvailable), 'Spawns and Extensions')",
-              "textEditor": false
-            },
-            {
-              "hide": false,
-              "refCount": -1,
-              "refId": "A",
-              "target": "alias(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.storageEnergy), 'Storage')"
-            },
-            {
-              "hide": false,
-              "refCount": -1,
-              "refId": "C",
-              "target": "alias(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.terminalEnergy), 'Terminals')",
-              "textEditor": false
-            },
-            {
-              "refCount": 0,
-              "refId": "D",
-              "target": "alias(sumSeries(#A, #B, #C), \"Total\")",
-              "targetFull": "alias(sumSeries(alias(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.storageEnergy), 'Storage'), alias(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.energyAvailable), 'Spawns and Extensions'), alias(sumSeries(stats.gauges.shard2.colonies.$Colony.rooms.*.terminalEnergy), 'Terminals')), \"Total\")",
-              "textEditor": true
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Stored Energy",
-          "tooltip": {
-            "msResolution": false,
-            "shared": true,
-            "sort": 0,
-            "value_type": "cumulative"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 10,
-              "max": null,
-              "min": 0,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "fill": 6,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 51
-          },
-          "hiddenSeries": false,
-          "id": 239,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "connected",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "7.4.2",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "scopedVars": {
-            "Colony": {
-              "selected": false,
-              "text": "E21S48-Shard2",
-              "value": "E21S48-Shard2"
-            }
-          },
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": true,
-          "steppedLine": false,
-          "targets": [
-            {
-              "refCount": 0,
-              "refId": "A",
-              "target": "aliasByNode(stats.gauges.shard2.colonies.$Colony.topics.*, 5)",
-              "textEditor": false
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Topic Size",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "fill": 0,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 51
-          },
-          "hiddenSeries": false,
-          "id": 262,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "connected",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "7.4.2",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "scopedVars": {
-            "Colony": {
-              "selected": false,
-              "text": "E21S48-Shard2",
-              "value": "E21S48-Shard2"
-            }
-          },
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "refId": "A",
-              "target": "aliasByNode(stats.gauges.shard2.colonies.$Colony.rooms.*.sources.*.energy, 5, 7)",
-              "textEditor": false
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Energy left in source",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "fill": 1,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 59
-          },
-          "hiddenSeries": false,
-          "id": 272,
-          "legend": {
-            "avg": false,
-            "current": true,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "connected",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "7.4.2",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "scopedVars": {
-            "Colony": {
-              "selected": false,
-              "text": "E21S48-Shard2",
-              "value": "E21S48-Shard2"
-            }
-          },
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "refCount": 0,
-              "refId": "A",
-              "target": "aliasByNode(stats.gauges.shard2.colonies.$Colony.desiredHaulers, 4)",
-              "textEditor": false
-            },
-            {
-              "refCount": 0,
-              "refId": "B",
-              "target": "aliasByNode(stats.gauges.shard2.colonies.$Colony.pidDesiredHaulers, 4)",
-              "textEditor": false
-            },
-            {
-              "refCount": 0,
-              "refId": "C",
-              "target": "aliasByNode(stats.gauges.shard2.colonies.$Colony.haulTasks, 4)",
-              "textEditor": false
-            },
-            {
-              "refCount": 0,
-              "refId": "D",
-              "target": "aliasByNode(stats.gauges.shard2.colonies.$Colony.numHaulers, 4)",
-              "textEditor": false
-            },
-            {
-              "refCount": 0,
-              "refId": "E",
-              "target": "aliasByNode(stats.gauges.shard2.colonies.$Colony.haulerSetpoint, 4)",
-              "textEditor": false
-            },
-            {
-              "refCount": 0,
-              "refId": "F",
-              "target": "alias(movingAverage(stats.gauges.shard2.colonies.$Colony.pidDesiredHaulers, '30min'), 'desired 30m avg')"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Logistics",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:663",
-              "decimals": null,
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": "10",
-              "min": "-5",
-              "show": true
-            },
-            {
-              "$$hashKey": "object:664",
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "fill": 0,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 59
-          },
-          "hiddenSeries": false,
-          "id": 261,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "connected",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "7.4.2",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "scopedVars": {
-            "Colony": {
-              "selected": false,
-              "text": "E21S48-Shard2",
-              "value": "E21S48-Shard2"
-            }
-          },
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "refId": "A",
-              "target": "aliasByNode(stats.gauges.shard2.colonies.$Colony.rooms.*.sources.*.containerFree, 5, 7)",
-              "textEditor": false
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Source Container Free Capacity",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": "0",
-              "show": true
-            },
-            {
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "fill": 1,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 0,
-            "y": 67
-          },
-          "hiddenSeries": false,
-          "id": 349,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "connected",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "7.4.2",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "scopedVars": {
-            "Colony": {
-              "selected": false,
-              "text": "E21S48-Shard2",
-              "value": "E21S48-Shard2"
-            }
-          },
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": true,
-          "steppedLine": false,
-          "targets": [
-            {
-              "refCount": 0,
-              "refId": "A",
-              "target": "aliasByNode(stats.gauges.shard2.colonies.$Colony.booster.*, 5)"
-            },
-            {
-              "refCount": 0,
-              "refId": "B",
-              "target": "aliasByNode(stats.gauges.shard2.colonies.$Colony.spawner.*.isSpawning, 6)"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Spawning & Boost Prep",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:470",
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "$$hashKey": "object:471",
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        },
-        {
-          "aliasColors": {},
-          "bars": false,
-          "dashLength": 10,
-          "dashes": false,
-          "datasource": null,
-          "fieldConfig": {
-            "defaults": {
-              "custom": {}
-            },
-            "overrides": []
-          },
-          "fill": 0,
-          "fillGradient": 0,
-          "gridPos": {
-            "h": 8,
-            "w": 12,
-            "x": 12,
-            "y": 67
-          },
-          "hiddenSeries": false,
-          "id": 391,
-          "legend": {
-            "avg": false,
-            "current": true,
-            "max": false,
-            "min": false,
-            "show": true,
-            "total": false,
-            "values": true
-          },
-          "lines": true,
-          "linewidth": 1,
-          "nullPointMode": "connected",
-          "options": {
-            "alertThreshold": true
-          },
-          "percentage": false,
-          "pluginVersion": "7.4.2",
-          "pointradius": 2,
-          "points": false,
-          "renderer": "flot",
-          "scopedVars": {
-            "Colony": {
-              "selected": false,
-              "text": "E21S48-Shard2",
-              "value": "E21S48-Shard2"
-            }
-          },
-          "seriesOverrides": [],
-          "spaceLength": 10,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "refId": "A",
-              "target": "aliasByMetric(stats.gauges.shard2.colonies.$Colony.rooms.*.resources.*)"
-            }
-          ],
-          "thresholds": [],
-          "timeFrom": null,
-          "timeRegions": [],
-          "timeShift": null,
-          "title": "Room Resources",
-          "tooltip": {
-            "shared": true,
-            "sort": 0,
-            "value_type": "individual"
-          },
-          "type": "graph",
-          "xaxis": {
-            "buckets": null,
-            "mode": "time",
-            "name": null,
-            "show": true,
-            "values": []
-          },
-          "yaxes": [
-            {
-              "$$hashKey": "object:434",
-              "format": "short",
-              "label": null,
-              "logBase": 10,
-              "max": null,
-              "min": null,
-              "show": true
-            },
-            {
-              "$$hashKey": "object:435",
-              "format": "short",
-              "label": null,
-              "logBase": 1,
-              "max": null,
-              "min": null,
-              "show": true
-            }
-          ],
-          "yaxis": {
-            "align": false,
-            "alignLevel": null
-          }
-        }
-      ],
-      "repeat": "Colony",
-      "scopedVars": {
-        "Colony": {
-          "selected": false,
-          "text": "E21S48-Shard2",
-          "value": "E21S48-Shard2"
-        }
-      },
-      "title": "$Colony",
-      "type": "row"
     }
   ],
-  "refresh": "1m",
-  "schemaVersion": 27,
+  "refresh": "15m",
+  "schemaVersion": 31,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -2549,22 +1470,21 @@
           "value": "$__all"
         },
         "datasource": "Graphite",
-        "definition": "stats.gauges.shard2.colonies.*",
+        "definition": "stats.gauges.shard3.rooms.*",
         "description": null,
         "error": null,
         "hide": 0,
         "includeAll": true,
         "label": null,
         "multi": false,
-        "name": "Colony",
+        "name": "Room",
         "options": [],
-        "query": "stats.gauges.shard2.colonies.*",
+        "query": "stats.gauges.shard3.rooms.*",
         "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
         "tagValuesQuery": "",
-        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -2601,7 +1521,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "Shard2",
+  "title": "shard3",
   "uid": "bthaJs_Gk",
   "version": 3
 }
