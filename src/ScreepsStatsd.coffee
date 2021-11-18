@@ -49,7 +49,7 @@ class ScreepsStatsd
 
     @getStats()
 
-    if(@counter % 15 == 0)
+    if(@counter % 5 == 0)
       @getMarket()
 
     @counter++
