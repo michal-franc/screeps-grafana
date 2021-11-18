@@ -17,10 +17,15 @@ lodash = require 'lodash'
 
 shards = (process.env.SCREEPS_SHARD || '').split(',')
 resources = [
-  'energy', 'O', 'H', 'K', 'Z', 'U', 'L', 'X', 'G', "OH", "ZK", "UL",
-  "UH", "UO", "KH", "KO",  "LH",  "LO", "ZH", "ZO", "GH", "GO",
-  "UH2O", "UHO2", "KH2O", "KHO2", "LH2O", "LHO2", "ZH2O", "ZHO2", "GH2O", "GHO2",
-  "XUH2O", "XUHO2", "XKH2O", "XKHO2", "XLH2O", "XLHO2", "XZH2O", "XZHO2", "XGH2O", "XGHO2",
+  'energy','power','H','O','U','K','L','Z','X','G',
+  'OH','ZK','UL','UH','UO','KH','KO','LH','LO','ZH',
+  'ZO','GH','GO','UH2O','UHO2','KH2O','KHO2','LH2O','LHO2','ZH2O',
+  'ZHO2','GH2O','GHO2','XUH2O','XUHO2','XKH2O','XKHO2','XLH2O','XLHO2','XZH2O',
+  'XZHO2','XGH2O','XGHO2','ops','silicon','metal','biomass','mist','utrium_bar','lemergium_bar',
+  'zynthium_bar','keanium_bar','ghodium_melt','oxidant','reductant','purifier','battery','composite','crystal','liquid',
+  'wire','switch','transistor','microchip','circuit','device','cell','phlegm','tissue','muscle',
+  'organoid','organism','alloy','tube','fixtures','frame','hydraulics','machine','condensate','concentrate',
+  'extract','spirit','emanation','essence',
 ]
 
 class ScreepsStatsd
@@ -44,7 +49,7 @@ class ScreepsStatsd
 
     @getStats()
 
-    if(@counter % 5 == 0)
+    if(@counter % 15 == 0)
       @getMarket()
 
     @counter++
